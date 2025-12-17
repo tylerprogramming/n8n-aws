@@ -94,11 +94,11 @@ Your environment section should look like this:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
       - N8N_SECURE_COOKIE=false
-      - N8N_HOST=3.149.239.36
+      - N8N_HOST=18.216.241.245
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://3.149.239.36:5678/
-      - N8N_EDITOR_BASE_URL=http://3.149.239.36:5678
+      - WEBHOOK_URL=http://18.216.241.245:5678/
+      - N8N_EDITOR_BASE_URL=http://18.216.241.245:5678
 ```
 
 ### Save and Exit
