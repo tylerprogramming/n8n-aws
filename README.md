@@ -57,7 +57,59 @@ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 
 ---
 
-## 6. Run n8n
+## 6. Configure Your Public IP
+
+Before running n8n, you need to add your EC2 public IP to the configuration.
+
+### Find Your Public IP
+
+In the AWS Console, go to **EC2 → Instances → Your Instance** and copy the **Public IPv4 address**.
+
+### Edit the docker-compose.yml
+
+Open the file with nano:
+
+```bash
+nano docker-compose.yml
+```
+
+Add these lines under the `environment:` section (replace `YOUR_PUBLIC_IP` with your actual IP):
+
+```yaml
+      - N8N_HOST=YOUR_PUBLIC_IP
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://YOUR_PUBLIC_IP:5678/
+      - N8N_EDITOR_BASE_URL=http://YOUR_PUBLIC_IP:5678
+```
+
+### Example (if your IP is 3.149.239.36):
+
+Your environment section should look like this:
+
+```yaml
+    environment:
+      - GENERIC_TIMEZONE=America/New_York
+      - TZ=America/New_York
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_SECURE_COOKIE=false
+      - N8N_HOST=3.149.239.36
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://3.149.239.36:5678/
+      - N8N_EDITOR_BASE_URL=http://3.149.239.36:5678
+```
+
+### Save and Exit
+
+1. Press `Ctrl + O` to save
+2. Press `Enter` to confirm
+3. Press `Ctrl + X` to exit
+
+---
+
+## 7. Run n8n
 
 ```bash
 docker compose pull
@@ -66,7 +118,7 @@ docker compose up -d
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 If something fails, try restarting Docker:
 
@@ -78,7 +130,7 @@ docker compose up -d
 
 ---
 
-## 8. Update Security Group
+## 9. Update Security Group
 
 Add the following inbound rule to your EC2 Security Group:
 
@@ -88,7 +140,7 @@ Add the following inbound rule to your EC2 Security Group:
 
 ---
 
-## 9. Access n8n
+## 10. Access n8n
 
 Open in your browser:
 
