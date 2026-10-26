@@ -83,7 +83,7 @@ Add these lines under the `environment:` section (replace `YOUR_PUBLIC_IP` with 
       - N8N_EDITOR_BASE_URL=http://YOUR_PUBLIC_IP:5678
 ```
 
-### Example (if your IP is 3.149.239.36):
+### Example (if your EC2 public IP is 203.0.113.10):
 
 Your environment section should look like this:
 
@@ -94,11 +94,11 @@ Your environment section should look like this:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
       - N8N_SECURE_COOKIE=false
-      - N8N_HOST=18.216.241.245
+      - N8N_HOST=203.0.113.10
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://18.216.241.245:5678/
-      - N8N_EDITOR_BASE_URL=http://18.216.241.245:5678
+      - WEBHOOK_URL=http://203.0.113.10:5678/
+      - N8N_EDITOR_BASE_URL=http://203.0.113.10:5678
 ```
 
 ### Save and Exit
