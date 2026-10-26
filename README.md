@@ -134,13 +134,17 @@ docker compose up -d
 
 Add the following inbound rule to your EC2 Security Group:
 
-| Type       | Port     | Source                                 |
-| ---------- | -------- | -------------------------------------- |
-| Custom TCP | **5678** | **Your IP** (or `0.0.0.0/0` temporarily) |
+| Type       | Port     | Source      |
+| ---------- | -------- | ----------- |
+| Custom TCP | **5678** | **My IP**   |
+
+In the AWS console, pick **My IP** in the Source dropdown; it fills in your address as a `/32`. Do not use `0.0.0.0/0`. This setup serves n8n over plain HTTP (`N8N_PROTOCOL=http`, `N8N_SECURE_COOKIE=false`), so anything you type, including your n8n password, crosses the internet unencrypted, and anyone on the internet can reach the editor and its login page.
+
+If your home IP changes, edit the rule and pick **My IP** again.
 
 ---
 
-## 10. Access n8n
+## 10. Access n8n and create the owner account
 
 Open in your browser:
 
@@ -149,3 +153,7 @@ http://YOUR_PUBLIC_IP:5678
 ```
 
 Replace `YOUR_PUBLIC_IP` with your EC2 instance's public IP address.
+
+On first open, n8n shows a signup screen to create the **owner account**. Do this right away: until an owner exists, whoever reaches port 5678 first can create it and take over the instance. Use a strong password (n8n requires at least 8 characters with a number and a capital letter).
+
+n8n 1.0 and later always require this login. The old `N8N_BASIC_AUTH_*` variables were removed in 1.0 and do nothing ([n8n user management docs](https://docs.n8n.io/deploy/host-n8n/configure-n8n/user-management), [v1.0 migration guide](https://docs.n8n.io/changelog/v10-migration-guide)).
