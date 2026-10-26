@@ -83,7 +83,7 @@ Add these lines under the `environment:` section (replace `YOUR_PUBLIC_IP` with 
       - N8N_EDITOR_BASE_URL=http://YOUR_PUBLIC_IP:5678
 ```
 
-### Example (if your IP is 3.149.239.36):
+### Example (if your EC2 public IP is 203.0.113.10):
 
 Your environment section should look like this:
 
@@ -94,11 +94,11 @@ Your environment section should look like this:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
       - N8N_SECURE_COOKIE=false
-      - N8N_HOST=18.216.241.245
+      - N8N_HOST=203.0.113.10
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://18.216.241.245:5678/
-      - N8N_EDITOR_BASE_URL=http://18.216.241.245:5678
+      - WEBHOOK_URL=http://203.0.113.10:5678/
+      - N8N_EDITOR_BASE_URL=http://203.0.113.10:5678
 ```
 
 ### Save and Exit
@@ -134,13 +134,17 @@ docker compose up -d
 
 Add the following inbound rule to your EC2 Security Group:
 
-| Type       | Port     | Source                                 |
-| ---------- | -------- | -------------------------------------- |
-| Custom TCP | **5678** | **Your IP** (or `0.0.0.0/0` temporarily) |
+| Type       | Port     | Source      |
+| ---------- | -------- | ----------- |
+| Custom TCP | **5678** | **My IP**   |
+
+In the AWS console, pick **My IP** in the Source dropdown; it fills in your address as a `/32`. Do not use `0.0.0.0/0`. This setup serves n8n over plain HTTP (`N8N_PROTOCOL=http`, `N8N_SECURE_COOKIE=false`), so anything you type, including your n8n password, crosses the internet unencrypted, and anyone on the internet can reach the editor and its login page.
+
+If your home IP changes, edit the rule and pick **My IP** again.
 
 ---
 
-## 10. Access n8n
+## 10. Access n8n and create the owner account
 
 Open in your browser:
 
@@ -149,3 +153,7 @@ http://YOUR_PUBLIC_IP:5678
 ```
 
 Replace `YOUR_PUBLIC_IP` with your EC2 instance's public IP address.
+
+On first open, n8n shows a signup screen to create the **owner account**. Do this right away: until an owner exists, whoever reaches port 5678 first can create it and take over the instance. Use a strong password (n8n requires at least 8 characters with a number and a capital letter).
+
+n8n 1.0 and later always require this login. The old `N8N_BASIC_AUTH_*` variables were removed in 1.0 and do nothing ([n8n user management docs](https://docs.n8n.io/deploy/host-n8n/configure-n8n/user-management), [v1.0 migration guide](https://docs.n8n.io/changelog/v10-migration-guide)).
